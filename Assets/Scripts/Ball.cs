@@ -6,7 +6,7 @@ public class Ball : MonoBehaviour {
     private Paddle paddle;
     private Vector3 paddleToBallVector;
     private bool gameStarted = false;
-    private int minSpeed = 8, maxSpeed = 10;
+    private int maxSpeed = 10;
 
     // Use this for initialization
     void Start () {
@@ -19,7 +19,7 @@ public class Ball : MonoBehaviour {
         if (!gameStarted) {
             this.transform.position = paddle.transform.position + paddleToBallVector;
 
-            if (Input.GetMouseButtonDown(0)) {
+            if (Input.GetMouseButtonDown(0) || LevelManager.getCurrentScene().name == "HowToPlay") {
                 float randomLeft = Random.value*5;
                 float randomRight = Random.value * 5;
                 this.GetComponent<Rigidbody2D>().velocity = (Vector2.up * 10) + ((Vector2.left * randomLeft) + (Vector2.right * randomRight));
@@ -30,7 +30,6 @@ public class Ball : MonoBehaviour {
                 GetComponent<Rigidbody2D>().velocity = Vector3.ClampMagnitude(GetComponent<Rigidbody2D>().velocity, maxSpeed);
             }
         }
-        print(GetComponent<Rigidbody2D>().velocity.magnitude);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -43,7 +42,9 @@ public class Ball : MonoBehaviour {
         }
 
         if (gameStarted) {
-            GetComponent<AudioSource>().Play();
+            if (LevelManager.getCurrentScene().name != "HowToPlay") {
+                GetComponent<AudioSource>().Play();
+            }
             GetComponent<Rigidbody2D>().velocity += velocityTweak;
         }
     }

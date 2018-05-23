@@ -9,6 +9,10 @@ public class Paddle : MonoBehaviour {
 
     void Start() {
         ball = GameObject.FindObjectOfType<Ball>();
+
+        if (LevelManager.getCurrentScene().name == "HowToPlay") {
+            autoPlay = true;
+        }
     }
 
     // Update is called once per frame

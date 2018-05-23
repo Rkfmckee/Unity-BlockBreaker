@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
     
+    public static Scene getCurrentScene() {
+        return SceneManager.GetActiveScene();
+    }
+
     public void LoadLevel(string name) {
         print("Level load requested for " + name);
         Brick.breakableBrickCount = 0;
@@ -23,7 +27,11 @@ public class LevelManager : MonoBehaviour {
 
     public void BrickDestroyed() {
         if (Brick.breakableBrickCount <= 0) {
-            LoadNextLevel();
+            if (getCurrentScene().name == "HowToPlay") {
+                LoadLevel("HowToPlay");
+            } else {
+                LoadNextLevel();
+            }
         }
     }
 }
