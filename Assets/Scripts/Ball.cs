@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour {
+    private int lives;
     private Paddle paddle;
     private Vector3 paddleToBallVector;
     private bool gameStarted = false;
     private int maxSpeed = 10;
+    private UIManager uiManager;
 
     // Use this for initialization
     void Start () {
         paddle = GameObject.FindObjectOfType<Paddle>();
         paddleToBallVector = this.transform.position - paddle.transform.position;
-	}
+        uiManager = GameObject.FindObjectOfType<UIManager>();
+
+        if (GlobalControl.instance.ballLives != 0) {
+            lives = GlobalControl.instance.ballLives;
+        } else {
+            lives = 3;
+        }
+    }
 
     // Update is called once per frame
     void Update() {
@@ -24,6 +33,10 @@ public class Ball : MonoBehaviour {
                 float randomRight = Random.value * 5;
                 this.GetComponent<Rigidbody2D>().velocity = (Vector2.up * 10) + ((Vector2.left * randomLeft) + (Vector2.right * randomRight));
                 gameStarted = true;
+
+                if (LevelManager.getCurrentScene().name != "HowToPlay") {
+                    uiManager.StartGame();
+                }
             }
         } else {
             if (GetComponent<Rigidbody2D>().velocity.magnitude >= maxSpeed) {
@@ -47,5 +60,14 @@ public class Ball : MonoBehaviour {
             }
             GetComponent<Rigidbody2D>().velocity += velocityTweak;
         }
+    }
+
+    public void LoseLife() {
+        lives--;
+        gameStarted = false;
+    }
+
+    public int GetLives() {
+        return lives;
     }
 }

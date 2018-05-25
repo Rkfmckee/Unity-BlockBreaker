@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Brick : MonoBehaviour {
     public Sprite[] hitSprites;
+    public GameObject[] powerups;
     public static int breakableBrickCount = 0;
 
     private LevelManager levelManager;
@@ -43,6 +44,7 @@ public class Brick : MonoBehaviour {
         {
             breakableBrickCount--;
             levelManager.BrickDestroyed();
+            dropPowerup();
             Destroy(gameObject);
         }
         else
@@ -59,6 +61,17 @@ public class Brick : MonoBehaviour {
         int spriteIndex = timesHit - 1;
         if (hitSprites[spriteIndex]) {
             this.GetComponent<SpriteRenderer>().sprite = hitSprites[spriteIndex];
+        }
+    }
+
+    void dropPowerup() {
+        int randomPowerup = Random.Range(0, powerups.Length);
+        GameObject powerupChosen = powerups[randomPowerup];
+
+        float randomChance = Random.Range(0.0f, 1.0f);
+        if (randomChance <= powerupChosen.GetComponent<Powerup>().chanceOfSpawn) {
+            Instantiate(powerupChosen, new Vector2(transform.position.x, transform.position.y), transform.rotation);
+            print(powerupChosen.name + " spawned.");
         }
     }
 }

@@ -1,10 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
-    
+    private Ball ball;
+
+    void Start() {
+        ball = GameObject.FindObjectOfType<Ball>();    
+    }
+
     public static Scene getCurrentScene() {
         return SceneManager.GetActiveScene();
     }
@@ -22,6 +28,7 @@ public class LevelManager : MonoBehaviour {
 
     public void LoadNextLevel() {
         Brick.breakableBrickCount = 0;
+        GlobalControl.instance.ballLives = ball.GetLives();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
