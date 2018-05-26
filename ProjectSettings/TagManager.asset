@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Breakable
+  - Ball
+  - Paddle
+  - BreakableGrey
+  - BreakableYellow
+  - BreakableGreen
   layers:
   - Default
   - TransparentFX

@@ -13,8 +13,6 @@ public class LoseCollider : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D collider) {
-        print("Trigger: " + collider.name);
-
         if (collider.name == "Ball") {
             if (ball.GetLives() > 0) {
                 ball.LoseLife();
@@ -23,7 +21,7 @@ public class LoseCollider : MonoBehaviour {
                 levelManager.LoadLevel("Lose");
             }
         } else {
-            Destroy(collider);
+            Destroy(collider.gameObject);
         }
     }
 }
